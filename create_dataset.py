@@ -1,6 +1,7 @@
 import numpy as np
 from utils.parse_utils import BIWIParser, create_dataset
 
+# Code Providor of the dataset
 annot_file = 'datasets/obsmat.txt'   # FixMe: fix the input address
 npz_out_file = 'datasets/hotel-8-12.npz'           # FixMe: fix the output filename
 parser = BIWIParser()
