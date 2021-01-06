@@ -58,6 +58,9 @@ model_name = args.model
 input_file = 'datasets/hotel-8-12.npz'
 model_file = 'trained_models/' + model_name + '-' + dataset_name + '.pt'
 
+####  Log artifacts ################################
+mlflow.log_artifact('datasets/obsmat.txt')
+
 # FIXME: ====== training hyper-parameters ======
 # Unrolled GAN
 n_unrolling_steps = args.unrolling_steps
@@ -557,6 +560,9 @@ def train():
 
     train_ADE /= n_train_samples
     train_FDE /= n_train_samples
+    
+    # Identify and Loging some metrics on training functions ################################
+    mlflow.log_metrics({"train_ADE": train_ADE, "train_FDE": train_FDE})
     toc = time.process_time()
     print(" Epc=%4d, Train ADE,FDE = (%.3f, %.3f) | time = %.1f" \
           % (epoch, train_ADE, train_FDE, toc - tic))
@@ -614,6 +620,9 @@ def test(n_gen_samples=20, linear=False, write_to_file=None, just_one=False):
     fde_avg_12 /= n_test_samples
     ade_min_12 /= n_test_samples
     fde_min_12 /= n_test_samples
+    # Identify and Loging some metrics testing functions ################################
+    mlflow.log_metrics({"ade_avg_12": ade_avg_12, "fde_avg_12": fde_avg_12})
+    mlflow.log_metrics({"ade_min_12": ade_min_12, "fde_min_12": fde_min_12})
     print('Avg ADE,FDE (12)= (%.3f, %.3f) | Min(20) ADE,FDE (12)= (%.3f, %.3f)' \
           % (ade_avg_12, fde_avg_12, ade_min_12, fde_min_12))
 
